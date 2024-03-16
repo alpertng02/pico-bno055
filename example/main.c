@@ -26,6 +26,9 @@ int main() {
     bno055_t bno;
     int8_t res = bno055_pico_init(&bno, i2c_default, BNO055_I2C_ADDR1);
     if (res) {
+        res = bno055_pico_init(&bno, i2c_default, BNO055_I2C_ADDR2);
+    }
+    if (res) {
         printf("BNO055 inilization failed!\n");
     }
     sleep_ms(100);
