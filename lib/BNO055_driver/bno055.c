@@ -54,7 +54,7 @@
 #include "hardware/i2c.h"
 #include <string.h>
 
-#define I2C_BUFFER_LEN 8
+#define I2C_BUFFER_LEN 16
 
 i2c_inst_t* bno055_i2c_instance = i2c_default;
 
@@ -68,7 +68,7 @@ int8_t pico_bus_write(uint8_t dev_addr, uint8_t reg_addr, uint8_t* reg_data, uin
 
     const int num_bytes_read = i2c_write_blocking(bno055_i2c_instance, dev_addr, msg, (wr_len + 1), false);
     if (num_bytes_read == PICO_ERROR_GENERIC) {
-        return BNO055_ERROR;
+        return 1;
     }
 
     return BNO055_SUCCESS;
@@ -79,12 +79,12 @@ int8_t pico_bus_read(uint8_t dev_addr, uint8_t reg_addr, uint8_t* reg_data, uint
     const uint8_t reg = reg_addr;
     const int write_result = i2c_write_blocking(bno055_i2c_instance, dev_addr, &reg_addr, 1, true);
     if (write_result == PICO_ERROR_GENERIC) {
-        return BNO055_ERROR;
+        return 1;
     }
 
     const int read_result = i2c_read_blocking(bno055_i2c_instance, dev_addr, reg_data, r_len, false);
     if (read_result == PICO_ERROR_GENERIC) {
-        return BNO055_ERROR;
+        return 1;
     }
 
     return BNO055_SUCCESS;
